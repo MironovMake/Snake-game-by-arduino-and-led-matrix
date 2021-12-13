@@ -90,6 +90,7 @@ void moveDown()
     i--;
   }
 }
+
 void loop()
 {
   if (digitalRead(buttonUp))
@@ -112,7 +113,12 @@ void loop()
     directionY = 0; // двигаемся влево
     directionX = -1;
   }
+  Serial.print("directionY  ");
 
+  Serial.println(directionY);
+  Serial.print("directionX  ");
+
+  Serial.println(directionX);
   moveUp();
   moveDown();
   moveRight();
