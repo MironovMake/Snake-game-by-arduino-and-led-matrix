@@ -114,11 +114,14 @@ void loop()
     directionX = -1;
   }
   Serial.print("directionY  ");
-
   Serial.println(directionY);
   Serial.print("directionX  ");
-
   Serial.println(directionX);
+  Serial.print("directionY  ");
+  Serial.println(directionY);
+  Serial.print("directionX  ");
+  Serial.println(directionX);
+
   moveUp();
   moveDown();
   moveRight();
