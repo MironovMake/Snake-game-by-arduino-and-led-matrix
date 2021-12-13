@@ -84,5 +84,28 @@ void moveDown()
 }
 void loop()
 {
-  moveLeft();
+  if (digitalRead(buttonUp))
+  {
+    directionY = 1; // двигаемся вверх
+    directionX = 0;
+    moveUp();
+  }
+  else if (digitalRead(buttonDown))
+  {
+    directionY = -1; // двигаемся вниз
+    directionX = 0;
+    moveDown();
+  }
+  else if (digitalRead(buttonRight))
+  {
+    directionY = 0; // двигаемся вправо
+    directionX = 1;
+    moveRight();
+  }
+  else if (digitalRead(buttonLeft))
+  {
+    directionY = 0; // двигаемся влево
+    directionX = -1;
+    moveLeft();
+  }
 }
