@@ -49,7 +49,7 @@ void drawFaces()
 void loop()
 {
 
-  for (int i = 8; i > 0; i--)
+  for (int i = 0; i < 8; i++)
   {
     lc.setLed(0, i, 1, 1);
     Serial.println(i);
@@ -57,7 +57,21 @@ void loop()
   }
   for (int i = 8; i > 0; i--)
   {
-    lc.setLed(0, 1, i, 1);
+    lc.setLed(0, 7, i, 1);
+    Serial.println(i);
+    delay(500);
+  }
+
+  for (int i = 8; i > 0; i--)
+  {
+    lc.setLed(0, i, 7, 1);
+    Serial.println(i);
+    delay(500);
+  }
+
+  for (int i = 0; i < 8; i++)
+  {
+    lc.setLed(0, 0, i, 1);
     Serial.println(i);
     delay(500);
   }
