@@ -1,78 +1,65 @@
-// SNAKE GAME on 8x8 LED matrix
-// using Arduino and 2 74HC595 shift register.
-#include <Arduino.h>
+#include "LedControl.h"
+#include "binary.h"
 
 /*
+ Контакт DIN на матрице – к цифровому контакту 12 на Arduino
+ Контакт CLK – к цифровому контакту 11
+ Контакт CS – к цифровому контакту 10
+*/
+LedControl lc = LedControl(12, 11, 10, 1);
 
-const int latchPin = 12; //пин соединяем с ST_CP сдв.регистра 74HC595
-const int clockPin = 8; //пин соединяем с SH_CP сдв.регистра 74HC595
-const int dataPin = 11; //пин соединяем с DS сдв.регистра 74HC595
+// задержка между разными рожицами:
+unsigned long delaytime = 500;
 
-byte scroll[]={
-  0B11111110,
-  0B11111101,
-  0B11111011,
-  0B11110111,
-  0B11101111,
-  0B11011111,
-  0B10111111,
-  0B01111111
-  };
-
-  byte point[]={
-    0B00000001,
-    0B00000010,
-    0B00000100,
-    0B00001000,
-    0B00010000,
-    0B00100000,
-    0B01000000,
-    0B10000000
-    };
-    */
-byte scroll[] = {
-    0B00000001,
-    0B00000010,
-    0B00000100,
-    0B00001000,
-    0B00010000,
-    0B00100000,
-    0B01000000,
-    0B10000000};
-
-byte point[] = {
-    0B00000001,
-    0B00000010,
-    0B00000100,
-    0B00001000,
-    0B00010000,
-    0B00100000,
-    0B01000000,
-    0B10000000};
-int latchPin = 12;
-int clockPin = 8;
-int dataPin = 11;
+// веселая рожица:
+byte hf[8] = {B00111100, B01000010, B10100101, B10000001, B10100101, B10011001, B01000010, B00111100};
+// «покерфейс»:
+byte nf[8] = {B00111100, B01000010, B10100101, B10000001, B10111101, B10000001, B01000010, B00111100};
+// грустная рожица:
+byte sf[8] = {B00111100, B01000010, B10100101, B10000001, B10011001, B10100101, B01000010, B00111100};
 
 void setup()
 {
-  // put your setup code here, to run once:
-  pinMode(latchPin, OUTPUT);
-  pinMode(clockPin, OUTPUT);
-  pinMode(dataPin, OUTPUT);
+  Serial.begin(9600);
+  lc.shutdown(0, false);
+  // выставляем яркость на среднее значение:
+  lc.setIntensity(0, 8);
+  // очищаем дисплей:
+  lc.clearDisplay(0);
+  Serial.println();
+}
+
+void drawFaces()
+{
+  int i = 0;
+  while (i < 8)
+  {
+    lc.setRow(0, i, nf[i]);
+    Serial.println(i);
+    i++;
+  }
+  delay(2000);
+  for (int i = 0; i < 8; i++)
+  {
+    lc.setRow(0, i, hf[i]);
+  }
+  delay(2000);
 }
 
 void loop()
 {
-  // put your main code here, to run repeatedly:
-  for (int i = 0; i < 8; i++)
+
+  for (int i = 8; i > 0; i--)
   {
-    for (int j = 0; j < 8; j++)
-    {
-      digitalWrite(latchPin, LOW);
-      shiftOut(dataPin, clockPin, MSBFIRST, scroll[i]);
-      shiftOut(dataPin, clockPin, MSBFIRST, point[j]);
-      digitalWrite(latchPin, HIGH);
-      delay(100);
-    }
+    lc.setLed(0, i, 1, 1);
+    Serial.println(i);
+    delay(500);
   }
+  for (int i = 8; i > 0; i--)
+  {
+    lc.setLed(0, 1, i, 1);
+    Serial.println(i);
+    delay(500);
+  }
+  delay(2000);
 }
