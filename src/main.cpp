@@ -113,14 +113,14 @@ void loop()
     directionY = 0; // двигаемся влево
     directionX = -1;
   }
-  Serial.print("directionY  ");
-  Serial.println(directionY);
-  Serial.print("directionX  ");
-  Serial.println(directionX);
-  Serial.print("directionY  ");
-  Serial.println(directionY);
-  Serial.print("directionX  ");
-  Serial.println(directionX);
+  Serial.print("digitalRead(buttonUp)  ");
+  Serial.println(digitalRead(buttonUp));
+  Serial.print("digitalRead(buttonDown)  ");
+  Serial.println(digitalRead(buttonDown));
+  Serial.print("digitalRead(buttonRight)  ");
+  Serial.println(digitalRead(buttonRight));
+  Serial.print("digitalRead(buttonLeft)  ");
+  Serial.println(digitalRead(buttonLeft));
 
   moveUp();
   moveDown();
