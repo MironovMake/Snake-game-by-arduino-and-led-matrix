@@ -21,13 +21,13 @@ int fruit[] = {1, 2};
 // текущая позиция на карте
 int currentPosition[] = {3, 3};
 // направления движения
-int directionX = 1;
+int directionX = 0;
 int directionY = 0;
 // кнопки для управления
-int buttonRight;
-int buttonLeft;
-int buttonUp;
-int buttonDown;
+int buttonRight = 3;
+int buttonLeft = 2;
+int buttonUp = 1;
+int buttonDown = 13;
 
 void setup()
 {
@@ -47,39 +47,47 @@ void setup()
 
 void moveLeft()
 {
-  for (int i = 8; i > 0; i--)
+  int i = 8;
+  while (directionX == -1)
   {
     lc.setLed(0, i, 7, 1);
     Serial.println(i);
     delay(speed);
+    i--;
   }
 }
 void moveRight()
 {
-  for (int i = 0; i < 8; i++)
+  int i = 0;
+  while (directionX == 1)
   {
     lc.setLed(0, 0, i, 1);
     Serial.println(i);
     delay(speed);
+    i++;
   }
 }
 void moveUp()
 {
-  for (int i = 0; i < 8; i++)
+  int i = 0;
+  while (directionY == 1)
   {
     lc.setLed(0, i, 1, 1);
     Serial.println(i);
     delay(speed);
+    i++;
   }
 }
 
 void moveDown()
 {
-  for (int i = 8; i > 0; i--)
+  int i = 8;
+  while (directionY == -1)
   {
     lc.setLed(0, 7, i, 1);
     Serial.println(i);
     delay(speed);
+    i--;
   }
 }
 void loop()
@@ -88,24 +96,25 @@ void loop()
   {
     directionY = 1; // двигаемся вверх
     directionX = 0;
-    moveUp();
   }
   else if (digitalRead(buttonDown))
   {
     directionY = -1; // двигаемся вниз
     directionX = 0;
-    moveDown();
   }
   else if (digitalRead(buttonRight))
   {
     directionY = 0; // двигаемся вправо
     directionX = 1;
-    moveRight();
   }
   else if (digitalRead(buttonLeft))
   {
     directionY = 0; // двигаемся влево
     directionX = -1;
-    moveLeft();
   }
+
+  moveUp();
+  moveDown();
+  moveRight();
+  moveLeft();
 }
