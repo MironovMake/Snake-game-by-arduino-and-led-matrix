@@ -23,8 +23,8 @@ int currentPosition[] = {3, 3};
 int currentPosX = 3;
 int currentPosY = 3;
 // предыдущая позиция на карте
-int previousPosX;
-int previousPosY;
+int previousPosX = currentPosX;
+int previousPosY = currentPosY;
 
 // направления движения
 int directionX = 0;
@@ -62,7 +62,7 @@ void moveLeft()
     lc.setLed(0, currentPosY, currentPosX, 1);
     // сделали шаг
     // выключаем предыдущий светодиод
-    lc.setLed(0, previousPosX, currentPosY, 0);
+    lc.setLed(0, currentPosY, previousPosX, 0);
   }
 }
 
@@ -77,7 +77,7 @@ void moveRight()
     lc.setLed(0, currentPosY, currentPosX, 1);
     // сделали шаг
     // выключаем предыдущий светодиод
-    lc.setLed(0, previousPosX, currentPosY, 0);
+    lc.setLed(0, currentPosY, previousPosX, 0);
   }
 }
 void moveUp()
@@ -92,7 +92,6 @@ void moveUp()
     lc.setLed(0, currentPosY, currentPosX, 1);
     // сделали шаг
     // выключаем предыдущий светодиод
-    lc.setLed(0, currentPosX, previousPosY, 0);
   }
 }
 void moveDown()
@@ -107,7 +106,7 @@ void moveDown()
     lc.setLed(0, currentPosY, currentPosX, 1);
     // сделали шаг
     // выключаем предыдущий светодиод
-    lc.setLed(0, currentPosX, previousPosY, 0);
+    lc.setLed(0, previousPosY, currentPosX, 0);
   }
 }
 
@@ -146,5 +145,16 @@ void loop()
     moveUp();
     moveDown();
     moveRight();
+    if (currentPosY > 7 || currentPosX > 7)
+    {
+      // проиграли
+      directionX = 0;
+      directionY = 0;
+      lc.clearDisplay(0);
+      currentPosX = 3;
+      currentPosY = 3;
+      previousPosX = currentPosX;
+      previousPosY = currentPosY;
+    }
   }
 }
