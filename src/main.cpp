@@ -37,10 +37,10 @@ int buttonDown = 13;
 
 void setup()
 {
-  pinMode(buttonRight, INPUT);
-  pinMode(buttonLeft, INPUT);
-  pinMode(buttonUp, INPUT);
-  pinMode(buttonDown, INPUT);
+  pinMode(buttonRight, INPUT_PULLUP);
+  pinMode(buttonLeft, INPUT_PULLUP);
+  pinMode(buttonUp, INPUT_PULLUP);
+  pinMode(buttonDown, INPUT_PULLUP);
 
   Serial.begin(9600);
   lc.shutdown(0, false);
