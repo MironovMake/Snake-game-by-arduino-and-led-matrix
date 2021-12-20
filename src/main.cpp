@@ -20,8 +20,12 @@ int mapp2[8][8] = {
 int fruit[] = {1, 2};
 // текущая позиция на карте
 int currentPosition[] = {3, 3};
-int posX = 3;
-int posY = 3;
+int currentPosX = 3;
+int currentPosY = 3;
+// предыдущая позиция на карте
+int previousPosX;
+int previousPosY;
+
 // направления движения
 int directionX = 0;
 int directionY = 0;
@@ -51,9 +55,14 @@ void moveLeft()
 {
   if (directionX == -1)
   {
-    lc.setLed(0, posX, 7, 1);
-    Serial.println(posX);
-    posX--;
+    // текущее положение Х становится предыдущим
+    previousPosX = currentPosX;
+    // обговляем текущее положение Х (делаем шаг)
+    currentPosX--;
+    lc.setLed(0, currentPosY, currentPosX, 1);
+    // сделали шаг
+    // выключаем предыдущий светодиод
+    lc.setLed(0, previousPosX, currentPosY, 0);
   }
 }
 
@@ -61,9 +70,14 @@ void moveRight()
 {
   if (directionX == 1)
   {
-    lc.setLed(0, 0, posX, 1);
-    Serial.println(posX);
-    posX++;
+    // текущее положение Х становится предыдущим
+    previousPosX = currentPosX;
+    // обговляем текущее положение Х (делаем шаг)
+    currentPosX++;
+    lc.setLed(0, currentPosY, currentPosX, 1);
+    // сделали шаг
+    // выключаем предыдущий светодиод
+    lc.setLed(0, previousPosX, currentPosY, 0);
   }
 }
 void moveUp()
@@ -71,9 +85,14 @@ void moveUp()
 
   if (directionY == 1)
   {
-    lc.setLed(0, posY, 1, 1);
-    Serial.println(posY);
-    posY++;
+    // текущее положение Х становится предыдущим
+    previousPosY = currentPosY;
+    // обговляем текущее положение Х (делаем шаг)
+    currentPosY++;
+    lc.setLed(0, currentPosY, currentPosX, 1);
+    // сделали шаг
+    // выключаем предыдущий светодиод
+    lc.setLed(0, currentPosX, previousPosY, 0);
   }
 }
 void moveDown()
@@ -81,9 +100,14 @@ void moveDown()
 
   if (directionY == -1)
   {
-    lc.setLed(0, 7, posY, 1);
-    Serial.println(posY);
-    posY--;
+    // текущее положение Х становится предыдущим
+    previousPosY = currentPosY;
+    // обговляем текущее положение Х (делаем шаг)
+    currentPosY--;
+    lc.setLed(0, currentPosY, currentPosX, 1);
+    // сделали шаг
+    // выключаем предыдущий светодиод
+    lc.setLed(0, currentPosX, previousPosY, 0);
   }
 }
 
