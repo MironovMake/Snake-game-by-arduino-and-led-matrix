@@ -94,16 +94,20 @@ void loop()
 {
   if (digitalRead(buttonUp))
   {
+    j = 0;
     directionY = 1; // двигаемся вверх
     directionX = 0;
   }
   else if (digitalRead(buttonDown))
   {
+    j = 8;
     directionY = -1; // двигаемся вниз
     directionX = 0;
   }
   else if (digitalRead(buttonRight))
   {
+    j = 0;
+
     directionY = 0; // двигаемся вправо
     directionX = 1;
   }
