@@ -1,7 +1,6 @@
 #include "LedControl.h"
 #include "binary.h"
 LedControl lc = LedControl(12, 11, 10, 1);
-int j;
 // длинна зменйки
 int lenght = 1;
 // скорость змейки
@@ -21,6 +20,8 @@ int mapp2[8][8] = {
 int fruit[] = {1, 2};
 // текущая позиция на карте
 int currentPosition[] = {3, 3};
+int posX = 3;
+int posY = 3;
 // направления движения
 int directionX = 0;
 int directionY = 0;
@@ -50,9 +51,9 @@ void moveLeft()
 {
   if (directionX == -1)
   {
-    lc.setLed(0, j, 7, 1);
-    Serial.println(j);
-    j--;
+    lc.setLed(0, posX, 7, 1);
+    Serial.println(posX);
+    posX--;
   }
 }
 
@@ -60,9 +61,9 @@ void moveRight()
 {
   if (directionX == 1)
   {
-    lc.setLed(0, 0, j, 1);
-    Serial.println(j);
-    j++;
+    lc.setLed(0, 0, posX, 1);
+    Serial.println(posX);
+    posX++;
   }
 }
 void moveUp()
@@ -70,9 +71,9 @@ void moveUp()
 
   if (directionY == 1)
   {
-    lc.setLed(0, j, 1, 1);
-    Serial.println(j);
-    j++;
+    lc.setLed(0, posY, 1, 1);
+    Serial.println(posY);
+    posY++;
   }
 }
 void moveDown()
@@ -80,9 +81,9 @@ void moveDown()
 
   if (directionY == -1)
   {
-    lc.setLed(0, 7, j, 1);
-    Serial.println(j);
-    j--;
+    lc.setLed(0, 7, posY, 1);
+    Serial.println(posY);
+    posY--;
   }
 }
 
@@ -90,26 +91,21 @@ void loop()
 {
   if (digitalRead(buttonUp))
   {
-    j = 0;
     directionY = 1; // двигаемся вверх
     directionX = 0;
   }
   else if (digitalRead(buttonDown))
   {
-    j = 8;
     directionY = -1; // двигаемся вниз
     directionX = 0;
   }
   else if (digitalRead(buttonRight))
   {
-    j = 0;
-
     directionY = 0; // двигаемся вправо
     directionX = 1;
   }
   else if (digitalRead(buttonLeft))
   {
-    j = 8;
     directionY = 0; // двигаемся влево
     directionX = -1;
   }
