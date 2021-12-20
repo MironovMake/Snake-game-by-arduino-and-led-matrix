@@ -51,14 +51,14 @@ void setup()
   Serial.println();
 }
 
-void moveLeft()
+void moveX()
 {
-  if (directionX == -1)
+  if (!directionX)
   {
     // текущее положение Х становится предыдущим
     previousPosX = currentPosX;
     // обговляем текущее положение Х (делаем шаг)
-    currentPosX--;
+    currentPosX = currentPosX + directionX;
     lc.setLed(0, currentPosY, currentPosX, 1);
     // сделали шаг
     // выключаем предыдущий светодиод
@@ -66,20 +66,6 @@ void moveLeft()
   }
 }
 
-void moveRight()
-{
-  if (directionX == 1)
-  {
-    // текущее положение Х становится предыдущим
-    previousPosX = currentPosX;
-    // обговляем текущее положение Х (делаем шаг)
-    currentPosX++;
-    lc.setLed(0, currentPosY, currentPosX, 1);
-    // сделали шаг
-    // выключаем предыдущий светодиод
-    lc.setLed(0, currentPosY, previousPosX, 0);
-  }
-}
 void moveUp()
 {
 
@@ -141,13 +127,12 @@ void loop()
     Serial.print("directionX  ");
     Serial.println(directionX);
     timer = millis();
-    moveLeft();
     moveUp();
     moveDown();
-    moveRight();
+    moveX();
     if (currentPosY > 7 || currentPosX > 7)
     {
-      // проиграли
+      // проиграли начинаем заново
       directionX = 0;
       directionY = 0;
       lc.clearDisplay(0);
