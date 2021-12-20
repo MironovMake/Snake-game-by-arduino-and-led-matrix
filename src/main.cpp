@@ -1,11 +1,12 @@
 #include "LedControl.h"
 #include "binary.h"
 LedControl lc = LedControl(12, 11, 10, 1);
-
+int j;
 // длинна зменйки
 int lenght = 1;
 // скорость змейки
 int speed = 1000;
+unsigned long timer;
 // карта
 int mapp2[8][8] = {
     {1, 1, 1, 1, 1, 1, 1, 1},
@@ -47,15 +48,14 @@ void setup()
 
 void moveLeft()
 {
-  int i = 8;
-  while (directionX == -1)
+  if (directionX == -1)
   {
-    lc.setLed(0, i, 7, 1);
-    Serial.println(i);
-    delay(speed);
-    i--;
+    lc.setLed(0, j, 7, 1);
+    Serial.println(j);
+    j--;
   }
 }
+
 void moveRight()
 {
   int i = 0;
@@ -78,7 +78,6 @@ void moveUp()
     i++;
   }
 }
-
 void moveDown()
 {
   int i = 8;
@@ -110,6 +109,7 @@ void loop()
   }
   else if (digitalRead(buttonLeft))
   {
+    j = 8;
     directionY = 0; // двигаемся влево
     directionX = -1;
   }
@@ -121,9 +121,13 @@ void loop()
   Serial.println(digitalRead(buttonRight));
   Serial.print("digitalRead(buttonLeft)  ");
   Serial.println(digitalRead(buttonLeft));
-
-  moveUp();
-  moveDown();
-  moveRight();
-  moveLeft();
+  // раз в заданное время делаем шаг
+  if (millis() - timer > speed)
+  {
+    timer = millis();
+    moveLeft();
+    moveUp();
+    moveDown();
+    moveRight();
+  }
 }
