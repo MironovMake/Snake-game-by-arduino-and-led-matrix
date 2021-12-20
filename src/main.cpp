@@ -58,35 +58,31 @@ void moveLeft()
 
 void moveRight()
 {
-  int i = 0;
-  while (directionX == 1)
+  if (directionX == 1)
   {
-    lc.setLed(0, 0, i, 1);
-    Serial.println(i);
-    delay(speed);
-    i++;
+    lc.setLed(0, 0, j, 1);
+    Serial.println(j);
+    j++;
   }
 }
 void moveUp()
 {
-  int i = 0;
-  while (directionY == 1)
+
+  if (directionY == 1)
   {
-    lc.setLed(0, i, 1, 1);
-    Serial.println(i);
-    delay(speed);
-    i++;
+    lc.setLed(0, j, 1, 1);
+    Serial.println(j);
+    j++;
   }
 }
 void moveDown()
 {
-  int i = 8;
-  while (directionY == -1)
+
+  if (directionY == -1)
   {
-    lc.setLed(0, 7, i, 1);
-    Serial.println(i);
-    delay(speed);
-    i--;
+    lc.setLed(0, 7, j, 1);
+    Serial.println(j);
+    j--;
   }
 }
 
