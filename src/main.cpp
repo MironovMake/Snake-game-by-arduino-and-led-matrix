@@ -17,9 +17,11 @@ int mapp2[8][8] = {
     {1, 0, 0, 0, 0, 0, 0, 1},
     {1, 1, 1, 1, 1, 1, 1, 1}};
 // положение фрукта
-int fruit[] = {1, 2};
+bool fruitFlag = 1;
 // текущая позиция на карте
-int currentPosition[] = {3, 3};
+int fruitX;
+int fruitY;
+
 int currentPosX = 3;
 int currentPosY = 3;
 // предыдущая позиция на карте
@@ -61,6 +63,8 @@ void moveX()
     currentPosX = currentPosX + directionX;
     lc.setLed(0, currentPosY, currentPosX, 1);
     // сделали шаг
+    if (fruitX == currentPosX && fruitY == currentPosY)
+      fruitFlag = 1;
     // выключаем предыдущий светодиод
     lc.setLed(0, currentPosY, previousPosX, 0);
   }
@@ -98,6 +102,16 @@ void moveDown()
 
 void loop()
 {
+  if (fruitFlag)
+  {
+    fruitX = random(7);
+    fruitY = random(7);
+    while (fruitX == currentPosX && fruitX == currentPosX)
+      fruitX = random(7);
+    lc.setLed(0, fruitX, fruitY, 1);
+    fruitFlag = 0;
+  }
+
   if (digitalRead(buttonUp))
   {
     directionY = 1; // двигаемся вверх
@@ -122,10 +136,8 @@ void loop()
   // раз в заданное время делаем шаг
   if (millis() - timer > speed)
   {
-    Serial.print("directionY  ");
-    Serial.println(directionY);
-    Serial.print("directionX  ");
-    Serial.println(directionX);
+    Serial.print("random  ");
+    Serial.println(random(7));
     timer = millis();
     moveUp();
     moveDown();
