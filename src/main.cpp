@@ -132,12 +132,14 @@ void loop()
     directionY = 0; // двигаемся влево
     directionX = -1;
   }
+  Serial.print("directionX  ");
+  Serial.println(directionX);
+  Serial.print("directionY  ");
+  Serial.println(directionY);
 
   // раз в заданное время делаем шаг
   if (millis() - timer > speed)
   {
-    Serial.print("random  ");
-    Serial.println(random(7));
     timer = millis();
     moveUp();
     moveDown();
