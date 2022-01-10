@@ -64,10 +64,7 @@ void step()
     bodyY[i] = bodyY[i - 1];
   }
   // после цикла bodyX[]={1,2,3,4}
-  if (lenght == 1)
-    lc.setLed(0, previousPosY, previousPosX, 0);
-  else
-    lc.setLed(0, bodyY[lenght], bodyX[lenght], 0);
+  lc.setLed(0, bodyY[lenght], bodyX[lenght], 0);
   //(lenght == 1) ? lc.setLed(0, previousPosY, previousPosX, 0) : lc.setLed(0, bodyY[lenght], bodyX[lenght], 0);
   previousPosX = currentPosX;
   previousPosY = currentPosY;
@@ -77,8 +74,15 @@ void frutGeneration()
 {
   fruitX = random(7);
   fruitY = random(7);
-  while (fruitX == currentPosX && fruitY == currentPosY)
-    fruitX = random(7);
+  // перебираем тело змеи
+  for (int i = lenght; i > -1; i--)
+    // если фрукт появляется на теле змеи, создать новый
+    while (fruitX == bodyX[i] && fruitY == bodyY[i])
+    {
+      fruitX = random(7);
+      fruitY = random(7);
+    }
+
   fruitFlag = 0;
   lc.setLed(0, fruitY, fruitX, 1);
   Serial.println("frut was generated");
@@ -133,7 +137,7 @@ void loop()
     step();
 
     // условие проигрыша
-    if (currentPosY > 7 || currentPosX > 7 || currentPosY < 0 || currentPosX < 0 || lenght == 10)
+    if (currentPosY > 7 || currentPosX > 7 || currentPosY < 0 || currentPosX < 0 || lenght == 15)
     {
       // проиграли начинаем заново
       directionX = 0;
@@ -153,7 +157,7 @@ void loop()
 }
 
 /*
-! первый баг
+//! первый баг
  после движения влево змея может пойти вправо.
  после движения вверх змея может идти вниз
 
