@@ -72,17 +72,19 @@ void step()
 
 void frutGeneration()
 {
-  fruitX = random(7);
-  fruitY = random(7);
-  // перебираем тело змеи
-  for (int i = lenght; i > -1; i--)
-    // если фрукт появляется на теле змеи, создать новый
-    while (fruitX == bodyX[i] && fruitY == bodyY[i])
-    {
-      fruitX = random(7);
-      fruitY = random(7);
-    }
-
+  // сщетчик
+  int counter = 0;
+  while (counter != lenght)
+  {
+    fruitX = random(7);
+    fruitY = random(7);
+    // перебираем тело змеи
+    for (int i = lenght; i > -1; i--)
+      if (fruitX != bodyX[i] && fruitY != bodyY[i])
+        counter++;
+      else
+        counter = 0;
+  }
   fruitFlag = 0;
   lc.setLed(0, fruitY, fruitX, 1);
   Serial.println("frut was generated");
