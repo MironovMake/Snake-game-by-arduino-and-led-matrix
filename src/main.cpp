@@ -23,6 +23,7 @@ int currentPosY = 3;
 // предыдущая позиция на карте
 int previousPosX = currentPosX;
 int previousPosY = currentPosY;
+int counter;
 
 // направления движения
 int directionX = 0;
@@ -58,7 +59,7 @@ void step()
     lenght++;
   }
   // до цикла bodyX[]={2,3,4,0}
-  for (int i = lenght; i > 0; i--) // выход из цикла когда i=1
+  for (int i = lenght; i > 0; i--)
   {
     bodyX[i] = bodyX[i - 1];
     bodyY[i] = bodyY[i - 1];
@@ -68,23 +69,38 @@ void step()
   //(lenght == 1) ? lc.setLed(0, previousPosY, previousPosX, 0) : lc.setLed(0, bodyY[lenght], bodyX[lenght], 0);
   previousPosX = currentPosX;
   previousPosY = currentPosY;
+  lc.setLed(0, fruitY, fruitX, 1);
 }
 
 void frutGeneration()
 {
   // сщетчик
-  int counter = 0;
-  while (counter != lenght)
+  counter = 0;
+
+  while ((counter + 2) < lenght)
   {
-    fruitX = random(7);
-    fruitY = random(7);
-    // перебираем тело змеи
-    for (int i = lenght; i > -1; i--)
-      if (fruitX != bodyX[i] && fruitY != bodyY[i])
-        counter++;
+    counter = 0;
+    fruitX = random(8);
+    fruitY = random(8);
+    // перебираем тело змеиSerial.println("counter  ");
+    Serial.println(lenght);
+    for (int i = lenght; i > 0; i--)
+    {
+      if (fruitX == bodyX[i] && fruitY == bodyY[i])
+      {
+        counter=0;
+      }
       else
-        counter = 0;
+      {
+        counter ++;
+      }
+    }
+    Serial.print("counter  ");
+    Serial.println(counter);
+    Serial.print("lenght  ");
+    Serial.println(lenght);
   }
+
   fruitFlag = 0;
   lc.setLed(0, fruitY, fruitX, 1);
   Serial.println("frut was generated");
