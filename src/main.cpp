@@ -35,20 +35,20 @@ int buttonDown = 4;
 
 void step()
 {
-if (startFlag)
+  // старт
+  if (startFlag)
   {
     lc.setLed(0, 3, 3, 0);
     startFlag = 0;
-  }  // текущее положение Х становится предыдущим
+  } // текущее положение Х становится предыдущим
 
   // обговляем текущее положение Х,Y (делаем шаг)
   currentPosX = currentPosX + directionX;
   currentPosY = currentPosY + directionY;
+  // координата головы
   bodyY[0] = currentPosY;
   bodyX[0] = currentPosX;
-  // ?if (currentPosX != previousPosX)
 
-  Serial.println(" ");
   lc.setLed(0, currentPosY, currentPosX, 1);
   // сделали шаг
   // lc.setLed(0, previousPosY, previousPosX, 0);
@@ -57,14 +57,18 @@ if (startFlag)
     fruitFlag = 1;
     lenght++;
   }
-  for (int i = lenght; i > 0; i--)
+  // до цикла bodyX[]={2,3,4,0}
+  for (int i = lenght; i > 0; i--) // выход из цикла когда i=1
   {
     bodyX[i] = bodyX[i - 1];
     bodyY[i] = bodyY[i - 1];
-    Serial.print("lenght  ");
-    Serial.println(lenght);
   }
-  (lenght == 1) ? lc.setLed(0, previousPosY, previousPosX, 0) : lc.setLed(0, bodyY[lenght], bodyX[lenght], 0);
+  // после цикла bodyX[]={1,2,3,4}
+  if (lenght == 1)
+    lc.setLed(0, previousPosY, previousPosX, 0);
+  else
+    lc.setLed(0, bodyY[lenght], bodyX[lenght], 0);
+  //(lenght == 1) ? lc.setLed(0, previousPosY, previousPosX, 0) : lc.setLed(0, bodyY[lenght], bodyX[lenght], 0);
   previousPosX = currentPosX;
   previousPosY = currentPosY;
 }
@@ -100,24 +104,23 @@ void setup()
 
 void loop()
 {
-  
 
-  if (digitalRead(buttonUp))
+  if (digitalRead(buttonUp) && startFlag || digitalRead(buttonUp) && (directionX != 0 && startFlag == 0))
   {
     directionY = 1; // двигаемся вверх
     directionX = 0;
   }
-  else if (digitalRead(buttonDown))
+  else if (digitalRead(buttonDown) && startFlag || digitalRead(buttonDown) && (directionX != 0 && startFlag == 0))
   {
     directionY = -1; // двигаемся вниз
     directionX = 0;
   }
-  else if (digitalRead(buttonRight))
+  else if (digitalRead(buttonRight) && startFlag || digitalRead(buttonRight) && (directionY != 0 && startFlag == 0))
   {
     directionY = 0; // двигаемся вправо
     directionX = 1;
   }
-  else if (digitalRead(buttonLeft))
+  else if (digitalRead(buttonLeft) && startFlag || digitalRead(buttonLeft) && (directionY != 0 && startFlag == 0))
   {
     directionY = 0; // двигаемся влево
     directionX = -1;
@@ -148,3 +151,15 @@ void loop()
       frutGeneration();
   }
 }
+
+/*
+! первый баг
+ после движения влево змея может пойти вправо.
+ после движения вверх змея может идти вниз
+
+! второй баг
+ фрукт может сгерерироваться на теле змеи //? после того как съели фрукт, новый не видно
+
+! третий баг
+
+*/
